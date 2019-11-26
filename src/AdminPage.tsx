@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NavLink, Route, RouteComponentProps } from "react-router-dom";
-import { isUserWhitespacable } from "@babel/types";
+import { Suspense } from "react";
 
 const AdminPage: React.SFC = () => {
   return (
@@ -47,7 +47,7 @@ const AdminUsers: React.SFC = () => {
         {adminUsersData.map(user => (
           <li>
             <NavLink
-              to={`/admin/users/$(user.id)`}
+              to={`/admin/users/${user.id}`}
               activeClassName="admin-link-active"
             >
               {user.name}
@@ -55,7 +55,7 @@ const AdminUsers: React.SFC = () => {
           </li>
         ))}
       </ul>
-      <Route path="admin/users/:id" component={AdminUser} />
+      <Route path="/admin/users/:id" component={AdminUser} />
     </div>
   );
 };
