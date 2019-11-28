@@ -1,4 +1,8 @@
+
 import * as React from "react";
+
+import { Suspense } from "react";
+
 import {
   BrowserRouter as Router,
   Redirect,
@@ -6,13 +10,15 @@ import {
   RouteComponentProps,
   Switch
 } from "react-router-dom";
+
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 import ProductPage from "./ProductPage";
 import NotFoundPage from "./NotFoundPage";
 import ProductsPage from "./ProductsPage";
 import Header from "./Header";
 import LoginPage from "./LoginPage";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { Suspense } from "react";
+
 
 const AdminPage = React.lazy(() => import("./AdminPage"));
 
@@ -25,7 +31,7 @@ const RoutesWrap: React.SFC = () => {
 };
 
 const Routes: React.SFC<RouteComponentProps> = props => {
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn] = React.useState(true);
   return (
     <div>
       <Header />
