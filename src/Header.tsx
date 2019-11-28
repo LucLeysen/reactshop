@@ -1,22 +1,20 @@
 import * as React from "react";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
 import "url-search-params-polyfill";
-
 import logo from "./logo.svg";
 
-const Header: React.SFC<RouteComponentProps> = props => {
+const Header: React.FC<RouteComponentProps> = props => {
   const [search, setSearch] = React.useState("");
-
   React.useEffect(() => {
     const searchParams = new URLSearchParams(props.location.search);
     setSearch(searchParams.get("search") || "");
-  }, []);
+  }, [props.location.search]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
 
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleSearchKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       props.history.push(`/products?search=${search}`);
     }
@@ -30,7 +28,7 @@ const Header: React.SFC<RouteComponentProps> = props => {
           placeholder="search"
           value={search}
           onChange={handleSearchChange}
-          onKeyDown={handleSearchKeyDown}
+          onKeyDown={handleSearchKeydown}
         />
       </div>
       <img src={logo} className="header-logo" alt="logo" />

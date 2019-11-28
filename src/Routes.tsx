@@ -1,6 +1,6 @@
-
 import * as React from "react";
 
+// @ts-ignore
 import { Suspense } from "react";
 
 import {
@@ -10,19 +10,17 @@ import {
   RouteComponentProps,
   Switch
 } from "react-router-dom";
-
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import ProductPage from "./ProductPage";
-import NotFoundPage from "./NotFoundPage";
-import ProductsPage from "./ProductsPage";
 import Header from "./Header";
+import ProductsPage from "./ProductsPage";
+import ProductPage from "./ProductPage";
 import LoginPage from "./LoginPage";
-
+import NotFoundPage from "./NotFoundPage";
 
 const AdminPage = React.lazy(() => import("./AdminPage"));
 
-const RoutesWrap: React.SFC = () => {
+const RoutesWrap: React.FC = () => {
   return (
     <Router>
       <Route component={Routes} />
@@ -30,7 +28,7 @@ const RoutesWrap: React.SFC = () => {
   );
 };
 
-const Routes: React.SFC<RouteComponentProps> = props => {
+const Routes: React.FC<RouteComponentProps> = props => {
   const [loggedIn] = React.useState(true);
   return (
     <div>
@@ -39,7 +37,7 @@ const Routes: React.SFC<RouteComponentProps> = props => {
         <CSSTransition
           key={props.location.key}
           timeout={500}
-          className="animate"
+          classNames="animate"
         >
           <Switch>
             <Redirect exact={true} from="/" to="/products" />

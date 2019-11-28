@@ -1,12 +1,11 @@
 import * as React from "react";
 import { NavLink, Route, RouteComponentProps } from "react-router-dom";
-import { Suspense } from "react";
 
-const AdminPage: React.SFC = () => {
+const AdminPage: React.FC = () => {
   return (
     <div className="page-container">
       <h1>Admin Panel</h1>
-      <ul className="admin_sections">
+      <ul className="admin-sections">
         <li key="users">
           <NavLink to={`/admin/users`} activeClassName="admin-link-active">
             Users
@@ -24,7 +23,7 @@ const AdminPage: React.SFC = () => {
   );
 };
 
-const AdminProducts: React.SFC = () => {
+const AdminProducts: React.FC = () => {
   return <div>Some options to administer products</div>;
 };
 
@@ -33,14 +32,12 @@ interface IUser {
   name: string;
   isAdmin: boolean;
 }
-
 const adminUsersData: IUser[] = [
   { id: 1, name: "Fred", isAdmin: true },
   { id: 2, name: "Bob", isAdmin: false },
   { id: 3, name: "Jane", isAdmin: true }
 ];
-
-const AdminUsers: React.SFC = () => {
+const AdminUsers: React.FC = () => {
   return (
     <div>
       <ul className="admin-sections">
@@ -60,7 +57,7 @@ const AdminUsers: React.SFC = () => {
   );
 };
 
-const AdminUser: React.SFC<RouteComponentProps<{ id: string }>> = props => {
+const AdminUser: React.FC<RouteComponentProps<{ id: string }>> = props => {
   let user: IUser;
   if (props.match.params.id) {
     const id: number = parseInt(props.match.params.id, 10);
@@ -71,11 +68,11 @@ const AdminUser: React.SFC<RouteComponentProps<{ id: string }>> = props => {
   return (
     <div>
       <div>
-        <b>Id:</b>
+        <b>Id: </b>
         <span>{user.id.toString()}</span>
       </div>
       <div>
-        <b>Is admin: </b>
+        <b>Is Admin: </b>
         <span>{user.isAdmin.toString()}</span>
       </div>
     </div>

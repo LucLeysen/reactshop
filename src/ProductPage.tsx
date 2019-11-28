@@ -1,54 +1,66 @@
 import * as React from "react";
 import { Prompt, RouteComponentProps } from "react-router-dom";
-import { IProduct, products } from "./ProductData";
+import { getProduct, IProduct } from "./ProductsData";
 import Product from "./Product";
+
 type Props = RouteComponentProps<{ id: string }>;
 
 interface IState {
   product?: IProduct;
   added: boolean;
+  loading: boolean;
 }
 
 class ProductPage extends React.Component<Props, IState> {
-  constructor(props: Props) {
+  public constructor(props: Props) {
     super(props);
-
-    this.state = { added: false };
+    this.state = {
+      added: false,
+      loading: true
+    };
   }
 
-  public componentDidMount() {
+  private componentUnloaded: boolean = false;
+  
+  public async componentDidMount() {
     if (this.props.match.params.id) {
       const id: number = parseInt(this.props.match.params.id, 10);
-      const product: IProduct = products.filter(p => p.id === id)[0];
-
-      this.setState({ product });
+      const product = await getProduct(id);
+      if (product !== null && !this.componentUnloaded) {
+        this.setState({ product, loading: false });
+      }
     }
+  }
+
+  public componentWillUnmount() {
+    this.componentUnloaded = true;
   }
 
   public render() {
     const product = this.state.product;
-
     return (
       <div className="page-container">
         <Prompt when={!this.state.added} message={this.navAwayMessage} />
-        {product ? (
+        {product || this.state.loading ? (
           <Product
+            loading={this.state.loading}
             product={product}
             inBasket={this.state.added}
             onAddToBasket={this.handleAddClick}
           />
         ) : (
-          <p> Product not found! </p>
+          <p>Product not found!</p>
         )}
       </div>
     );
   }
+
   private handleAddClick = () => {
     this.setState({ added: true });
   };
 
   private navAwayMessage = () =>
-    "Are you're sure you leave without buying this product?";
+    "Are you sure you leave without buying this product?";
 }
 
 export default ProductPage;
